@@ -1,3 +1,5 @@
+import { Dialect } from "sequelize/types";
+
 export type DbConfigTypes = {
     dbName: string,
     dbUser: {
@@ -7,6 +9,6 @@ export type DbConfigTypes = {
     dbConnection: {
         host: string,
         port: number
-        dialect: string,
+        dialect: Dialect,
     }
 }

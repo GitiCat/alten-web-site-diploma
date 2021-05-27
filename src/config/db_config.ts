@@ -9,6 +9,6 @@ export const DbConfig: DbConfigTypes = {
     dbConnection: {
         host: '',
         port: 0,
-        dialect: ''
+        dialect: 'mysql'
     }
 }
