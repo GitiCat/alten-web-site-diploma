@@ -1,0 +1,149 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100vw;
+    height: 100vh;
+}
+
+a {
+    display: block;
+    text-decoration: none;
+    color: #000;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+h1 {
+    display: block;
+    position: relative;
+    font-size: 32px;
+    font-weight: 700;
+    color: #2b2b2b;
+}
+
+h2 {
+    display: block;
+    position: relative;
+    font-size: 26px;
+    font-weight: 700;
+    color: #2b2b2b;
+}
+
+/*  header styles   */
+header {
+    flex: 0 0 auto;
+    padding: 40px 0;
+}
+
+header > .content {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header > .content > .contacts {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: center;
+}
+
+header > .content > .contacts > a {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0 0 7px;
+}
+
+header > .content > .contacts > a > i {
+    color: rgb(60, 41, 230);
+    margin-right: 7px;
+}
+
+header > .content > .nav-panel {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(69, 22, 158);
+    border-radius: 4px;
+}
+
+header > .content >.nav-panel > .nav-item a {
+    position: relative;
+    display: block;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    transition: background .3s ease;
+}
+
+header > .content > .nav-panel > .nav-item {
+    position: relative;
+    transition: background .3s ease;
+}
+
+header > .content > .nav-panel > .nav-item:hover {
+    background-color: rgb(113 53 226);
+}
+/*  end header styles   */
+
+.container {
+    flex: 1 0 auto;
+}
+
+.container,
+header {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/*  footer styles   */
+footer {
+    flex: 0 0 auto;
+}
+/*  end footer styles   */
+
+@media only screen and (min-width: 576px) {
+    .container,
+    header {
+        max-width: 540px;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .container,
+    header {
+        max-width: 720px;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .container,
+    header {
+        max-width: 960px;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .container,
+    header {
+        max-width: 1140px;
+    }
+}
