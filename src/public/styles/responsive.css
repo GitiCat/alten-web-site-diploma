@@ -1,0 +1,27 @@
+@media only screen and (min-width: 576px) {
+    .container,
+    header {
+        max-width: 540px;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .container,
+    header {
+        max-width: 720px;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .container,
+    header {
+        max-width: 960px;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .container,
+    header {
+        max-width: 1140px;
+    }
+}
