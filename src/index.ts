@@ -1,6 +1,9 @@
 import path from 'path'
 import express, { Application, Request, Response } from 'express'
+import { json, urlencoded } from 'body-parser'
+import cors from 'cors'
 import chalk from 'chalk'
+import { appRouter } from './routers/index'
 import RegisterHbs from './register-hbs'
 import dbSequelize from './sequelize/index'
 
@@ -9,33 +12,14 @@ const serverHost: string = 'localhost',
 
 const app: Application = express()
 app.use('/static', express.static(path.join(__dirname, '/public')))
+app.use(json())
+app.use(urlencoded({ extended: true }))
+app.use(cors())
 
 const registerHbs = new RegisterHbs({app: app})
 registerHbs.register()
 
-app.get('/', (req: Request, res: Response) => {
-    res.render('home', {
-        title: 'Главная'
-    })
-})
-
-app.get('/products', (req: Request, res: Response) => {
-    res.render('products', {
-        title: 'Продукция'
-    })
-})
-
-app.get('/about', (req: Request, res: Response) => {
-    res.render('about', {
-        title: 'О нас'
-    })
-})
-
-app.get('/contacts', (req: Request, res: Response) => {
-    res.render('contacts', {
-        title: 'Контакты'
-    })
-})
+app.use(appRouter)
 
 dbSequelize.sequelize.authenticate().then(() => {
     console.log(chalk.cyan('Authenticate with database has been successful.'))

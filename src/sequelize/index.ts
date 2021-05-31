@@ -1,5 +1,6 @@
 import { Dialect, Sequelize } from 'sequelize'
 import { DbConfig } from '../config/db_config'
+import { initialUserModel } from './models/user-model'
 import { initCategoryArticleModel } from './models/categories-article-model'
 import { initialArticleModel } from './models/article-model'
 import { initialProductModel } from './models/product-model'
@@ -21,6 +22,7 @@ const sequelize: Sequelize = new Sequelize(dbName, user, password, {
 const db = {
     sequelize,
     Sequelize,
+    Users: initialUserModel(sequelize),
     Aritcles: initialArticleModel(sequelize),
     CategoryArticle: initCategoryArticleModel(sequelize).source,
     Products: initialProductModel(sequelize),
