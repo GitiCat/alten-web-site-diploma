@@ -1,9 +1,10 @@
 import path from 'path'
 import express, { Application, Request, Response } from 'express'
+import chalk from 'chalk'
 import RegisterHbs from './register-hbs'
 import dbSequelize from './sequelize/index'
 
-const serverHost: string = '192.168.0.173',
+const serverHost: string = 'localhost',
       serverPort: number = 8000
 
 const app: Application = express()
@@ -37,13 +38,13 @@ app.get('/contacts', (req: Request, res: Response) => {
 })
 
 dbSequelize.sequelize.authenticate().then(() => {
-    console.log('Authenticate with database has been successful.')
+    console.log(chalk.cyan('Authenticate with database has been successful.'))
 
     dbSequelize.sequelize.sync({force: true}).then(() => {
-        console.log('Sync tables in database has been seccessful.')
+        console.log(chalk.cyan('Sync tables in database has been seccessful.'))
         
         app.listen(serverPort, serverHost, () => {
-            console.log(`Server started at: ${serverHost}:${serverPort}`);
+            console.log(chalk.cyan(`Server started at: ${serverHost}:${serverPort}`));
         })
     })
 })

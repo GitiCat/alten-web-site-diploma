@@ -1,6 +1,9 @@
 import { Dialect, Sequelize } from 'sequelize'
 import { DbConfig } from '../config/db_config'
-import { initCategoryArticleModel, ICategoryArticleAttributes } from './models/categories-article-model'
+import { initCategoryArticleModel } from './models/categories-article-model'
+import { initialArticleModel } from './models/article-model'
+import { initialProductModel } from './models/product-model'
+import { initialCategoryProductModel } from './models/categories-product-model'
 
 const host: string      = DbConfig.dbConnection.host,
       port: number      = DbConfig.dbConnection.port,
@@ -18,7 +21,10 @@ const sequelize: Sequelize = new Sequelize(dbName, user, password, {
 const db = {
     sequelize,
     Sequelize,
-    CategoryArticle: initCategoryArticleModel(sequelize)
+    Aritcles: initialArticleModel(sequelize),
+    CategoryArticle: initCategoryArticleModel(sequelize).source,
+    Products: initialProductModel(sequelize),
+    CategoryProduct: initialCategoryProductModel(sequelize).source
 }
 
 Object.values(db).forEach((model: any) => {
