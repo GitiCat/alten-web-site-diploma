@@ -134,3 +134,10 @@ header > .nav-panel > .nav-link > a.active {
 .header > .controls-container > .go-to a:hover {
     color: #fff;
 }
+
+.container {
+    position: relative;
+    display: flex;
+    flex-flow: column nowrap;
+    padding: 72px 7.5%;
+}

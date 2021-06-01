@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcrypt'
-import chalk, { cyan } from 'chalk'
+import chalk from 'chalk'
 import * as jwt from 'jsonwebtoken'
 import db from '../sequelize/index'
 
