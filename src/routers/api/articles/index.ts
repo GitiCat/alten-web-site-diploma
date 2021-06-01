@@ -29,7 +29,7 @@ articlesApiRouter.post('/articles', (req: Request, res: Response) => {
         name: body.name,
         title: body.title,
         subtitle: body.subtitle,
-        text: body.text
+        text: body.text,
     }).then(item => {
         res.status(200).location(`'/api/articles/'${item.id}`).json(item)
     }).catch(error => {
