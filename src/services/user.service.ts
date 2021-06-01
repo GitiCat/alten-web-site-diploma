@@ -1,4 +1,5 @@
 import * as bcrypt from 'bcrypt'
+import chalk, { cyan } from 'chalk'
 import * as jwt from 'jsonwebtoken'
 import db from '../sequelize/index'
 
@@ -22,7 +23,8 @@ class UserService {
         const { id, login: userLogin } = user
 
         return {
-            token: jwt.sign({ id, userLogin }, this._jwtSecret)
+            token: jwt.sign({ id, userLogin }, this._jwtSecret),
+            username: userLogin
         }
     }
 
@@ -40,6 +42,33 @@ class UserService {
                 return
             })
         }) as Promise<boolean>
+    }
+
+    async getOrCreateUser(login: string, password: string, username: string): Promise<boolean> {
+        const salt: string = await bcrypt.genSalt(this._saulRound)
+        const hash = await bcrypt.hash(password, salt)
+
+        const user = await db.Users.findOne({where: { login: login }})
+        console.log(chalk.cyan(`[DATABASE]: Checking user ${login} for existence...`));
+
+        if(!user) {
+            const user = await db.Users.create({
+                login: login,
+                password: hash,
+                username: username
+            })
+
+            if(user) {
+                console.log(chalk.green(`[DATABASE]: User ${user.login} has been successfully created.`))
+                return Promise.resolve(true)
+            } else {
+                console.log(chalk.red(`[DATABASE]: An error occurred while creating a user...`))
+                return Promise.resolve(false)
+            }
+        }
+
+        console.log(chalk.green(`[DATABASE]: User ${login} is exist.`));
+        return Promise.resolve(true)
     }
 
     getUserById(id: number) {

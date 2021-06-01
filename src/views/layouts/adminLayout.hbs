@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles/admin-style.css">
+    <title>{{title}}</title>
+</head>
+<body>
+    {{> admin/header }}
+    <div class="container">
+        {{{body}}}
+    </div>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            setActiveNavLink()
+        })
+
+        const setActiveNavLink = () => {
+            const links = document.querySelectorAll('.nav-panel > .nav-link > a')
+            const { pathname } = location
+
+            links.forEach((link) => link.classList.remove('.active'))
+            links.forEach((link) => {
+                if(link.getAttribute('href') === pathname)
+                    link.classList.add('active')
+            })
+        }
+    </script>
+</body>
+</html>

@@ -11,11 +11,15 @@ const getTokenFromHeaders = (headers: IncomingHttpHeaders): string => {
 }
 
 const TokenGuard: (() => RequestHandler) = (() => (req: Request, res: Response, next: NextFunction) => {
-    const token = getTokenFromHeaders(req.headers) || req.query.token || req.body.token || ''
+    const token = getTokenFromHeaders(req.headers)
+        || req.cookies['auth_token']
+        || req.query.token 
+        || req.body.token 
+        || ''
     const hasAccess: Promise<boolean> = userService.verifyJwtToken(token)
 
     hasAccess.then(access => {
-        if(!access) return res.status(403).redirect('/login')
+        if(!access) return res.status(403).redirect(302, '/login')
         next()
     })
 })

@@ -1,3 +1,5 @@
 /node_modules/
 src/config/db_config.ts
 package-lock.json
+.vscode/
+dist/

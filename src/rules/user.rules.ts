@@ -4,14 +4,15 @@ import db from '../sequelize/index'
 
 export const userRules = {
     login: [
-        check('login')
-            .custom(login => { db.Users.findOne({ where: { login }}).then(user => !!user) })
-            .withMessage('Invalid login or password'),
-        check('password')
-            .custom((password, { req }) => {
-                return db.Users.findOne({where: { login: req.body.login }})
-                    .then(user => bcrypt.compare(password, user!.password))
-            })
-            .withMessage('Invalid login or password')
+        check('login').custom(async value => {
+            const user = await db.Users.findOne({ where: { login: value } })
+            if (!user)
+                return Promise.reject('Invalid login or password')
+        }),
+        check('password').custom(async (value, { req }) => {
+            const user = await db.Users.findOne({ where: { login: req.body.login } })
+            if (!(await bcrypt.compare(value, user!.password)))
+                return Promise.reject('Invalid login or password')
+        })
     ]
 }

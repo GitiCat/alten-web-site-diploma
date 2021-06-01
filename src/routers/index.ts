@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express'
 import { apiRouter } from './api/index'
 import { userRouter } from './user/index'
+import { adminRouter } from './admin/index'
 import TokenGuard from '../middlewares/token-guard'
 
 export const appRouter: Router = Router()
@@ -40,5 +41,11 @@ appRouter.get('/contacts', (req: Request, res: Response) => {
 
 appRouter.use(TokenGuard())
 appRouter.get('/admin', (req: Request, res: Response) => {
-    res.send('')
+    res.render('admin/index', {
+        title: 'Администирование',
+        current_user: req.cookies['auth_user'],
+        layout: 'adminLayout'
+    })
 })
+
+appRouter.use('/admin', adminRouter)
