@@ -1,11 +1,14 @@
 import path from 'path'
-import express, { Application, Request, Response } from 'express'
+
+import dotenv from 'dotenv'
+dotenv.config({ path: path.resolve(__dirname, '.env') })
+
+import express, { Application, request } from 'express'
 import { json, urlencoded } from 'body-parser'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import chalk from 'chalk'
 import { appRouter } from './routers/index'
-import ErrorHandlerMiddleware from './middlewares/ErrorHandlerMiddleware'
 import RegisterHbs from './register-hbs'
 import dbSequelize from './sequelize/index'
 import UserService from './services/user.service'
@@ -24,12 +27,11 @@ const registerHbs = new RegisterHbs({app: app})
 registerHbs.register()
 
 app.use(appRouter)
-app.use(ErrorHandlerMiddleware)
 
 dbSequelize.sequelize.authenticate().then(() => {
     console.log(chalk.green('[DATABASE]: Authenticate with database has been successful.'))
 
-    dbSequelize.sequelize.sync({logging: true, force: true}).then(() => {
+    dbSequelize.sequelize.sync({logging: false, force: true}).then(() => {
         console.log(chalk.green('[DATABASE]: Sync tables in database has been seccessful.'))
         createRootUser().then(() => {
             app.listen(serverPort, serverHost, () => {

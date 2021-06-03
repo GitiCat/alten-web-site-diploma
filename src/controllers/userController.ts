@@ -1,63 +1,67 @@
-import { Request, Response, NextFunction } from 'express'
-import { Result, ValidationError, validationResult } from 'express-validator'
-import * as bcrypt from 'bcrypt'
+import { NextFunction, Request, Response } from 'express'
 import * as jwt from 'jsonwebtoken'
-import { ModelCtor } from 'sequelize/types'
-import { IUserInstance } from '../sequelize/models/user-model'
-import ApiError from '../error/ApiError'
+import * as bcrypt from 'bcrypt'
+import {
+    Result,
+    ValidationError,
+    validationResult
+} from 'express-validator/check'
 import db from '../sequelize/index'
+import { IUserInstance } from '../sequelize/models/user-model'
 
-class UserController {
-    private _hashPasswordSaltRound: number = 5
-    private _jwtSecretKey: string = '0.fd7s74828'
-    private _model: ModelCtor<IUserInstance>
+const JWT_SECRET_KEY: string = process.env.JWT_SECRET_KEY
 
-    constructor() {
-        this._model = db.Users
-    }
-    
-    loginGET(req: Request, res: Response, next: NextFunction) {
+/**
+ * Generate json web token
+ * @param id user id
+ * @param login user login
+ * @returns Generated json web token
+ */
+const createJwt = (id: number, login: string): Promise<string> => {
+    return Promise.resolve(jwt.sign({ id, login }, JWT_SECRET_KEY, {
+        expiresIn: '24h'
+    }))
+}
+
+const UserController = () => {
+    const loginGET = (req: Request, res: Response) => {
         res.render('login', {
             title: 'Авторизация',
             layout: 'authLayout'
         })
     }
 
-    async login(req: Request, res: Response, next: NextFunction) {
+    const login = async (req: Request, res: Response, next: NextFunction) => {
         const error: Result<ValidationError> = validationResult(req)
-        if(!error.isEmpty()) res.json(error)
+        if (!error.isEmpty()) return next(res.status(400).json(error.array()[0]))
 
         const { login } = req.body
 
-        const user = await this._model.findOne({where: {login}})
-        const token = this.generateJwt(user.id, login)
-        return res.status(200).json({token: token, username: user.username})
+        const user: IUserInstance = await db.Users.findOne({ where: { login: login } })
+        const token: string = await createJwt(user.id, login)
+
+        res.status(200).json({ token: token, username: user.username })
     }
-    
-    async registration(req: Request, res: Response, next: NextFunction) {
+
+    const register = async (req: Request, res: Response, next: NextFunction) => {
         const error: Result<ValidationError> = validationResult(req)
-        if(!error.isEmpty()) return next(ApiError.badRequest(`${error.array({onlyFirstError: true})}`))
-        
+        if(!error.isEmpty()) return next(res.status(400).json(error.array()[0]))
+
         const { login, password, username } = req.body
 
         try {
-            const hashPassword = await bcrypt.hash(password, this._hashPasswordSaltRound)
-            const user = await this._model.create({login: login, password: hashPassword, username: username})
-            const token = this.generateJwt(user.id, login)
-            
-            return res.status(200).json({token: token})
+            const hashPassword: string = await bcrypt.hash(password, Number(process.env.JWT_SALT_ROUND))
+            const user = await db.Users.create({login: login, password: hashPassword, username: username})
+            res.status(201).json({user})
         } catch(error) {
-            next(ApiError.badRequest(`New user creation error\n${error}`))
+            return next(res.status(500).json({error: error}))
         }
     }
 
-    private generateJwt(id: number, login: string) {
-        return jwt.sign({
-            id: id,
-            login
-        },this._jwtSecretKey, {
-            expiresIn: '24h'
-        })
+    return {
+        loginGET,
+        login,
+        register
     }
 }
 
