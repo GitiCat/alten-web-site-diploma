@@ -4,7 +4,6 @@ import {
     Model,
     Optional
 } from 'sequelize'
-import { initialProductModel } from './product-model'
 
 export interface ICategoryProductAttributes {
     id: number,
@@ -43,12 +42,4 @@ export const initialCategoryProductModel = (sequelize: Sequelize) => {
             }
         }
     )
-    .hasMany(initialProductModel(sequelize),
-    {
-        onDelete: 'cascade',
-        foreignKey: {
-            name: 'categoryId',
-            allowNull: false
-        }
-    })
 }
