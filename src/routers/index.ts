@@ -1,11 +1,14 @@
-import { Router, Request, Response } from 'express'
+import { Router, Request, Response, NextFunction } from 'express'
 import { apiRouter } from './api/index'
 import { userRouter } from './user/index'
 import { adminRouter } from './admin/index'
-import TokenGuard from '../middlewares/token-guard'
+import RequestLogger from '../middlewares/request-logger'
+import { authRules } from '../rules/auth.rules'
+import { checkAuthValidator } from './check-auth-validator'
 
 export const appRouter: Router = Router()
 //  Api router with database data
+appRouter.use(RequestLogger)
 appRouter.use(apiRouter)
 appRouter.use(userRouter)
 
@@ -39,8 +42,7 @@ appRouter.get('/contacts', (req: Request, res: Response) => {
 })
 //#endregion
 
-appRouter.use(TokenGuard())
-appRouter.get('/admin', (req: Request, res: Response) => {
+appRouter.get('/admin', authRules.system, checkAuthValidator, (req: Request, res: Response) => {
     res.render('admin/index', {
         title: 'Администирование',
         current_user: req.cookies['auth_user'],
@@ -48,4 +50,4 @@ appRouter.get('/admin', (req: Request, res: Response) => {
     })
 })
 
-appRouter.use('/admin', adminRouter)
+appRouter.use('/admin', authRules.system, adminRouter)

@@ -1,5 +1,4 @@
-import { NextFunction, Request, Response } from 'express'
-import * as jwt from 'jsonwebtoken'
+import { CookieOptions, NextFunction, Request, Response } from 'express'
 import * as bcrypt from 'bcrypt'
 import {
     Result,
@@ -8,20 +7,9 @@ import {
 } from 'express-validator/check'
 import db from '../sequelize/index'
 import { IUserInstance } from '../sequelize/models/user-model'
+import UserService from '../services/user.service'
 
-const JWT_SECRET_KEY: string = process.env.JWT_SECRET_KEY
-
-/**
- * Generate json web token
- * @param id user id
- * @param login user login
- * @returns Generated json web token
- */
-const createJwt = (id: number, login: string): Promise<string> => {
-    return Promise.resolve(jwt.sign({ id, login }, JWT_SECRET_KEY, {
-        expiresIn: '24h'
-    }))
-}
+const userService: UserService = new UserService()
 
 const UserController = () => {
     const loginGETForm = (req: Request, res: Response) => {
@@ -72,9 +60,19 @@ const UserController = () => {
         const { login } = req.body
 
         const user: IUserInstance = await db.Users.findOne({ where: { login: login } })
-        const token: string = await createJwt(user.id, login)
+        const token: string = await userService.createJwt(user.id, login)
 
-        res.status(200).json({ token: token, username: user.username })
+        const cookieOptions: CookieOptions = {
+            path: '*',
+            maxAge: 3600 * 24,
+            httpOnly: true
+        }
+        
+        res
+            .status(200)
+            .cookie('Authorization', token, cookieOptions)
+            .cookie('auth_user', user.login, cookieOptions)
+            .redirect('/admin')
     }
 
     const register = async (req: Request, res: Response, next: NextFunction) => {

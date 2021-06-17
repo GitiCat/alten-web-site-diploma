@@ -3,7 +3,7 @@ import path from 'path'
 import dotenv from 'dotenv'
 dotenv.config({ path: path.resolve(__dirname, '.env') })
 
-import express, { Application, request } from 'express'
+import express, { Application } from 'express'
 import { json, urlencoded } from 'body-parser'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'

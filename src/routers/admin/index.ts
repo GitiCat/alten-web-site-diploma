@@ -1,4 +1,6 @@
 import { Router, Request, Response } from 'express'
+import { authRules } from '../../rules/auth.rules'
+import { checkAuthValidator } from '../check-auth-validator'
 
 export const adminRouter: Router = Router()
 const params = (req: Request) => {
@@ -9,31 +11,31 @@ const params = (req: Request) => {
     }
 }
 
-adminRouter.get('/articles', (req: Request, res: Response) => {
+adminRouter.get('/articles', authRules.system, checkAuthValidator, (req: Request, res: Response) => {
     res.render('admin/articles', Object.assign({
         
     }, params(req)))
 })
 
-adminRouter.get('/categories-article', (req: Request, res: Response) => {
+adminRouter.get('/categories-article', authRules.system, checkAuthValidator, (req: Request, res: Response) => {
     res.render('admin/categories-article', Object.assign({
 
     }, params(req)))
 })
 
-adminRouter.get('/products', (req: Request, res: Response) => {
+adminRouter.get('/products', authRules.system, checkAuthValidator, (req: Request, res: Response) => {
     res.render('admin/products', Object.assign({
 
     }, params(req)))
 })
 
-adminRouter.get('/categories-product', (req: Request, res: Response) => {
+adminRouter.get('/categories-product', authRules.system, checkAuthValidator, (req: Request, res: Response) => {
     res.render('admin/categories-product', Object.assign({
 
     }, params(req)))
 })
 
-adminRouter.get('/users', (req: Request, res: Response) => {
+adminRouter.get('/users', authRules.system, checkAuthValidator, (req: Request, res: Response) => {
     res.render('admin/users', Object.assign({
 
     }, params(req)))
