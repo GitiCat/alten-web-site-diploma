@@ -6,7 +6,7 @@ import {
 } from 'sequelize'
 
 export interface IUserAttributes {
-    id: number,
+    id?: number,
     login: string,
     password: string,
     username: string

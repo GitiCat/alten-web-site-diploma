@@ -1,4 +1,4 @@
-import { buildCheckFunction, ValidationChain } from 'express-validator'
+import { buildCheckFunction } from 'express-validator'
 import UserService from '../services/user.service'
 
 const check = buildCheckFunction(['headers', 'cookies'])

@@ -141,3 +141,81 @@ header > .nav-panel > .nav-link > a.active {
     flex-flow: column nowrap;
     padding: 72px 7.5%;
 }
+
+.items-list {
+    position: relative;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 75%;
+    height: auto;
+    margin-top: 42px;
+}
+
+.items-list > .add-link {
+    position: relative;
+    display: block;
+    margin: 0 0 24px;
+    padding: 8px 42px;
+    background-color: rgb(69, 22, 158);
+    border-radius: 4px;
+    font-size: 14px;
+    letter-spacing: -.03em;
+    color: #fff;
+    transition: all .3s ease;
+}
+
+.items-list > .add-link:hover {
+    background-color: rgb(120, 74, 208);
+}
+
+.items-list > .item {
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #c8beff;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: transparent;
+    transition: all .3s ease;
+}
+
+.items-list > .item:hover {
+    background-color: rgb(69, 22, 158);
+    border-color: rgb(69, 22, 158);
+}
+
+.items-list > .item:hover > .content > .text-block > span,
+.items-list > .item:hover > .content > .text-block > span:first-child {
+    color: #fff;
+}
+
+.items-list > .item > .content > .text-block {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    width: auto;
+    float: left;
+    margin-right: 16px;
+}
+
+.items-list > .item > .content > .text-block > span {
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: -.03em;
+    margin-right: 8px;
+    color: #3c3c3c;
+    transition: all .3s ease;
+}
+
+.items-list > .item > .content > .text-block > span:first-child {
+    font-weight: 600;
+    font-size: 14;
+    color: #1c1c1c;
+}

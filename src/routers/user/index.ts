@@ -1,4 +1,4 @@
-import { Router, Request, Response, CookieOptions } from 'express'
+import { Router } from 'express'
 import { userRules } from '../../rules/user.rules'
 import UserController from '../../controllers/userController'
 

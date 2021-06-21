@@ -5,6 +5,7 @@ import { adminRouter } from './admin/index'
 import RequestLogger from '../middlewares/request-logger'
 import { authRules } from '../rules/auth.rules'
 import { checkAuthValidator } from './check-auth-validator'
+import homeContent from '../data/home'
 
 export const appRouter: Router = Router()
 //  Api router with database data
@@ -15,8 +16,11 @@ appRouter.use(userRouter)
 //#region Main routes
 //  Main routes for home page
 appRouter.get('/', (req: Request, res: Response) => {
+    console.log(homeContent);
+    
     res.render('home', {
-        title: 'Главная'
+        title: 'Главная',
+        data: homeContent
     })
 })
 

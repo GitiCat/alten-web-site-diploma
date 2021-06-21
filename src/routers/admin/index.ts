@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express'
 import { authRules } from '../../rules/auth.rules'
 import { checkAuthValidator } from '../check-auth-validator'
+import services from '../../services/index.service'
 
 export const adminRouter: Router = Router()
 const params = (req: Request) => {
@@ -35,8 +36,9 @@ adminRouter.get('/categories-product', authRules.system, checkAuthValidator, (re
     }, params(req)))
 })
 
-adminRouter.get('/users', authRules.system, checkAuthValidator, (req: Request, res: Response) => {
+adminRouter.get('/users', authRules.system, async (req: Request, res: Response) => {
+    const allUsers = await services.Users.getAll()
     res.render('admin/users', Object.assign({
-
+        users: allUsers
     }, params(req)))
 })

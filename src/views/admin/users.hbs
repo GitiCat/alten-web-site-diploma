@@ -1,1 +1,23 @@
-<h1>its users</h1>
+<h2>Пользователи</h2>
+<div class="users-list items-list">
+    <a href="" class="add-link">Добавить</a>
+    {{#each users}}
+    <div class="item" data-item-id={{id}}>
+        <div class="content">
+            <div class="text-block">
+                <span>Логин:</span>
+                <span>{{login}}</span>
+            </div>
+            <div class="text-block">
+                <span>Имя пользователя:</span>
+                <span>{{username}}</span>
+            </div>
+        </div>
+        <div class="controls">
+            <a href="" class="delete-link"><i class="fa fa-ban" aria-hidden="true"></i></a>
+            <a href="" class="edit-link"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+        </div>
+    </div>
+    {{/each}}
+</div>
+<script src="/static/scripts/users.js"></script>
