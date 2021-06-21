@@ -30,15 +30,57 @@ adminRouter.get('/products', authRules.system, checkAuthValidator, (req: Request
     }, params(req)))
 })
 
+//#region Admin categories products routes
 adminRouter.get('/categories-product', authRules.system, checkAuthValidator, (req: Request, res: Response) => {
     res.render('admin/categories-product', Object.assign({
 
     }, params(req)))
 })
 
-adminRouter.get('/users', authRules.system, async (req: Request, res: Response) => {
+adminRouter.get('/categories-product/add', (req: Request, res: Response) => {
+    res.render('admin/forms/categories-product', Object.assign({
+        formTitle: 'Добавление категории продукции',
+        url: "/users",
+        method: 'POST',
+        data: {
+            name: '',
+            title: ''
+        },
+        submitTitle: 'Добавить'
+    }, params(req)))
+})
+
+adminRouter.get('/categories-product/change', authRules.system, checkAuthValidator, (req: Request, res: Response) => {
+    const { name, title } = req.body
+    res.render('admin/forms/categories-product', Object.assign({
+        formTitle: 'Изменение категории продукции',
+        method: 'PUT',
+        data: {
+            name: name,
+            title: title
+        },
+        submitTitle: 'Изменить'
+    }, params(req)))
+})
+//#endregion
+
+adminRouter.get('/users', authRules.system, checkAuthValidator, async (req: Request, res: Response) => {
     const allUsers = await services.Users.getAll()
     res.render('admin/users', Object.assign({
         users: allUsers
+    }, params(req)))
+})
+
+adminRouter.get('/users/add', authRules.system, (req: Request, res: Response) => {
+    res.render('admin/forms/users', Object.assign({
+        formTitle: 'Добавление нового пользователя',
+        url: '/register',
+        method: 'POST',
+        data: {
+            login: '',
+            password: '',
+            username: ''
+        },
+        submitTitle: 'Добавить'
     }, params(req)))
 })

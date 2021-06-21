@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcrypt'
-import { check } from 'express-validator'
+import { check, buildCheckFunction } from 'express-validator'
 import db from '../sequelize/index'
 
 export const userRules = {

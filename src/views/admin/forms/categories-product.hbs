@@ -1,0 +1,18 @@
+<div class="admin-form-container">
+    <h2>{{formTitle}}</h2>
+    <form action="{{url}}" method="{{method}}">
+        <div class="input-block">
+            <label for="categories-product__name">Название категории</label>
+            <input type="text" name="name" id="categories-product__name">
+        </div>
+        <div class="input-block">
+            <label for="categories-product__title">Заголовок категории</label>
+            <input type="text" name="title" id="categories-product__title">
+        </div>
+        <div class="controls">
+            <button type="submit">{{submitTitle}}</button>
+            <button type="reset">Отмена</button>
+        </div>
+    </form>
+</div>
+<script src="/static/scripts/forms.js"></script>

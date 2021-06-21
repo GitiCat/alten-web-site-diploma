@@ -1,0 +1,22 @@
+<div class="admin-form-container">
+    <h2>{{formTitle}}</h2>
+    <form action="{{url}}" method="{{method}}">
+        <div class="input-block">
+            <label for="user__login">Логин</label>
+            <input type="text" name="login" id="user__login" value='{{data.login}}'>
+        </div>
+        <div class="input-block">
+            <label for="user__pasword">Пароль</label>
+            <input type="password" name="password" id="user_password" value='{{data.password}}'>
+        </div>
+        <div class="input-block">
+            <label for="user_username">Имя пользователя</label>
+            <input type="text" name="username" id="user_username" value='{{data.username}}'>
+        </div>
+        <div class="controls">
+            <button type="submit">{{submitTitle}}</button>
+            <button type="reset">Отмена</button>
+        </div>
+    </form>
+</div>
+<script src="/static/scripts/forms.js"></script>

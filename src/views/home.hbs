@@ -4,23 +4,26 @@
         <span>Разработка и производство</span>
         <span>химических источников тока</span>
     </div>
-    <div class="page-content">
-        <div class="products-list">
-            {{#each data.categories}}
-            <a href="">{{name}}</a>
+</div>
+<div class="page-content">
+    <ul class="products-list">
+        {{#each data.categories}}
+        <li><a href="">{{name}}</a></li>
+        {{/each}}
+    </ul>
+    <div class="descriptor">
+        <div class="text">
+            {{#each data.about}}
+            <p>{{p}}</p>
             {{/each}}
         </div>
-        <div class="descriptor">
-            <div class="text">
-                {{#each data.about}}
-                <p>{{p}}</p>
-                {{/each}}
-            </div>
-            <div class="products">
-                {{#each data.categories}}
+        <div class="products">
+            {{#each data.categories}}
+            <div class="product">
                 <div class="img" style="background-image: url(/static/images/{{image}})"></div>
-                {{/each}}
+                <span>{{name}}</span>
             </div>
+            {{/each}}
         </div>
     </div>
 </div>
